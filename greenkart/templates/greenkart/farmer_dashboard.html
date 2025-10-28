@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farmer Dashboard - GreenKart</title>
+    <style>
+        body { font-family: 'Poppins'; background-color: #f4f7f4; margin: 0; }
+        header { background: #1a5d1a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        header a { color: white; text-decoration: none; background: #2d8a2d; padding: 8px 14px; border-radius: 6px; }
+        h1 { margin: 20px; color: #1a5d1a; }
+        table { width: 90%; margin: 20px auto; border-collapse: collapse; background: white; border-radius: 10px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: center; }
+        th { background-color: #1a5d1a; color: white; }
+        button { background: #1a5d1a; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+        button:hover { background: #2d8a2d; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>🌾 Farmer Dashboard</h2>
+        <div>
+            <a href="{% url 'add_product' %}">+ Add Product</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </header>
+
+    <h1>Your Products</h1>
+
+    {% if products %}
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" width="70" height="70" style="border-radius:5px;">
+                {% else %}
+                    No Image
+                {% endif %}
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>₹{{ product.price }}</td>
+            <td>{{ product.location }}</td>
+            <td>
+                <a href="{% url 'delete_product' product.id %}"><button>Delete</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="text-align:center; margin-top:50px;">You haven’t added any products yet.</p>
+    {% endif %}
+</body>
+</html>

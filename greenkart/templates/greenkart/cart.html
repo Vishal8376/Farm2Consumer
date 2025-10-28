@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart - GreenKart</title>
+    <style>
+        body { font-family: 'Poppins'; background-color: #f4f7f4; margin: 0; }
+        header { background: #1a5d1a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        header a { color: white; text-decoration: none; background: #2d8a2d; padding: 8px 14px; border-radius: 6px; }
+        table { width: 90%; margin: 20px auto; border-collapse: collapse; background: white; border-radius: 10px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: center; }
+        th { background-color: #1a5d1a; color: white; }
+        button { background: #1a5d1a; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+        button:hover { background: #2d8a2d; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>🛒 Your Cart</h2>
+        <a href="{% url 'consumer_dashboard' %}">Back to Shop</a>
+    </header>
+
+    {% if cart_items %}
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.product.price }}</td>
+            <td>₹{{ item.product.price|floatformat:2|add:item.quantity }}</td>
+            <td>
+                <a href="{% url 'remove_from_cart' item.id %}"><button>Remove</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="3">Grand Total</th>
+            <th>₹{{ total }}</th>
+            <th>
+                <a href="{% url 'place_order' %}"><button>Place Order</button></a>
+            </th>
+        </tr>
+    </table>
+    {% else %}
+    <p style="text-align:center; margin-top:50px;">Your cart is empty!</p>
+    {% endif %}
+</body>
+</html>
