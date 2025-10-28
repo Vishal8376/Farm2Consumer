@@ -40,11 +40,13 @@ class User(AbstractUser):
     ROLE_CHOICES = (
         ('farmer', 'Farmer'),
         ('consumer', 'Consumer'),
-        ('retailer', 'Retailer'),
+        ('admin','Admin'),
     )
 
     username = None
     email = models.EmailField(unique=True)
+    name = models.CharField(max_length=255)
+    mobile = models.CharField(max_length=15, blank=True, null=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
     USERNAME_FIELD = 'email'

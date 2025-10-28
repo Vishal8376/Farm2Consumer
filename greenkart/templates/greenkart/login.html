@@ -1,0 +1,313 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GreenKart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(26, 93, 26, 0.15);
+            min-height: 600px;
+        }
+
+        /* Left Section - Logo & Welcome */
+        .logo-section {
+            flex: 1;
+            background: linear-gradient(135deg, #1a5d1a 0%, #2d8a2d 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-section::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .logo-section::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .logo-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .logo-section img {
+            max-height: 120px;
+            width: auto;
+            margin-bottom: 30px;
+            /* Removed the filter that was making the logo invisible */
+        }
+
+        .welcome-text {
+            color: white;
+            margin-top: 20px;
+        }
+
+        .welcome-text h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .welcome-text p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Right Section - Form */
+        .form-section {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 40px;
+        }
+
+        .form-header h2 {
+            color: #1a5d1a;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: "Poppins", sans-serif;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1a5d1a;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(26, 93, 26, 0.1);
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #1a5d1a 0%, #2d8a2d 100%);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-family: "Poppins", sans-serif;
+            box-shadow: 0 4px 15px rgba(26, 93, 26, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 93, 26, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .link p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .link a {
+            color: #1a5d1a;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .link a:hover {
+            color: #2d8a2d;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+
+            .logo-section {
+                padding: 40px 30px;
+                min-height: auto;
+            }
+
+            .logo-section img {
+                max-height: 80px;
+            }
+
+            .welcome-text h1 {
+                font-size: 24px;
+            }
+
+            .welcome-text p {
+                font-size: 14px;
+            }
+
+            .form-section {
+                padding: 40px 30px;
+            }
+
+            .form-header h2 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                box-shadow: 0 10px 30px rgba(26, 93, 26, 0.1);
+            }
+
+            .logo-section {
+                padding: 30px 20px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Logo Section -->
+        <div class="logo-section">
+            <div class="logo-content">
+                <img src="{% static 'greenkart/logo1.png' %}" alt="GreenKart Logo">
+                <div class="welcome-text">
+                    <h1>Welcome Back!</h1>
+                    <p>Log in to access your GreenKart account and continue shopping for fresh, farm-to-consumer produce.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Form Section -->
+        <div class="form-section">
+            <div class="form-header">
+                <h2>Login</h2>
+                <p>Enter your credentials to access your account</p>
+            </div>
+            
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="link">
+                <p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

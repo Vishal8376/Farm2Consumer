@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - GreenKart</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            background-color: white;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-section {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 30px;
+            background-color: white;
+        }
+
+        .logo-section img {
+            height: 80px;
+        }
+
+        .form-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+        }
+
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0, 128, 0, 0.1);
+        }
+
+        h2 {
+            color: #1a5d1a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #1a5d1a;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #157115;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .link a {
+            color: #1a5d1a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Logo Section -->
+        <div class="logo-section">
+            <img src="{% static 'greenkart/logo 1.png' %}" alt="GreenKart Logo">
+        </div>
+
+        <!-- Right Form Section -->
+        <div class="form-section">
+            <div class="form-box">
+                <h2>Create an Account</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Full Name" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <select name="role" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="farmer">Farmer</option>
+                        <option value="consumer">Consumer</option>
+                    </select>
+                    <input type="text" name="mobile" placeholder="Mobile Number" required>
+                    <button type="submit">Sign Up</button>
+                </form>
+                <div class="link">
+                    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
