@@ -1,5 +1,4 @@
 {% load static %}
-{% load math_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +13,6 @@
             padding: 0;
         }
 
-        /* --- Navbar --- */
         nav {
             display: flex;
             align-items: center;
@@ -24,58 +22,17 @@
             padding: 15px 40px;
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-section img {
-            height: 40px;
-        }
-
-        .logo-section span {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #1b5e20;
-        }
-
-        .search-bar {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .search-bar input {
-            width: 60%;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .right-icons {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            font-size: 1rem;
-        }
-
+        .logo-section img  {
+            width: 150px;
+            height: 80px;
+            object-fit: contain; }
+        .right-icons { display: flex; align-items: center; gap: 20px; }
         .right-icons a {
             text-decoration: none;
             color: #1b5e20;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
-        .right-icons i {
-            font-size: 1.1rem;
-        }
-
-        /* --- Cart Section --- */
         h1 {
             text-align: center;
             color: #1b5e20;
@@ -92,35 +49,12 @@
             overflow-x: auto;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background-color: #1b5e20; color: white; text-transform: uppercase; }
+        td img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; }
 
-        th, td {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        th {
-            background-color: #1b5e20;
-            color: white;
-            text-transform: uppercase;
-        }
-
-        td img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .total-row {
-            font-weight: bold;
-            background: #f2f2f2;
-        }
-
+        .total-row { font-weight: bold; background: #f2f2f2; }
         button {
             background: #1b5e20;
             color: white;
@@ -128,27 +62,11 @@
             padding: 8px 14px;
             border-radius: 6px;
             cursor: pointer;
-            transition: 0.3s;
         }
+        button:hover { background: #2e7d32; }
 
-        button:hover {
-            background: #2e7d32;
-        }
-
-        .empty {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-top: 60px;
-            color: #555;
-        }
-
-        footer {
-            text-align: center;
-            padding: 15px;
-            color: #888;
-            font-size: 0.9rem;
-            margin-top: 40px;
-        }
+        .empty { text-align: center; font-size: 1.2rem; margin-top: 60px; color: #555; }
+        footer { text-align: center; padding: 15px; color: #888; margin-top: 40px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -158,13 +76,9 @@
     <div class="logo-section">
         <img src="{% static 'greenkart/logo1.png' %}" alt="GreenKart Logo">
     </div>
-
-    
-
     <div class="right-icons">
         <a href="{% url 'consumer_dashboard' %}">🛍 Shop</a>
         <a href="{% url 'logout' %}">Logout</a>
-        <a href="#"><i class="fa fa-user"></i></a>
     </div>
 </nav>
 
@@ -178,10 +92,11 @@
             <th>Product</th>
             <th>Image</th>
             <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
+            <th>Price (₹)</th>
+            <th>Total (₹)</th>
             <th>Action</th>
         </tr>
+
         {% for item in cart_items %}
         <tr>
             <td>{{ item.product.name }}</td>
@@ -193,8 +108,8 @@
                 {% endif %}
             </td>
             <td>{{ item.quantity }}</td>
-            <td>₹{{ item.product.price }}</td>
             <td>₹{{ item.product.price|floatformat:2 }}</td>
+            <td>₹{{ item.line_total|floatformat:2 }}</td>
             <td>
                 <a href="{% url 'remove_from_cart' item.id %}">
                     <button>Remove</button>
@@ -202,13 +117,14 @@
             </td>
         </tr>
         {% endfor %}
+
         <tr class="total-row">
             <td colspan="4">Grand Total</td>
-            <td>₹{{ total }}</td>
+            <td>₹{{ total|floatformat:2 }}</td>
             <td>
-                <a href="{% url 'place_order' %}">
-                    <button>Place Order</button>
-                </a>
+                <a href="{% url 'checkout' %}">
+                    <button>Checkout</button>
+                    </a>    
             </td>
         </tr>
     </table>

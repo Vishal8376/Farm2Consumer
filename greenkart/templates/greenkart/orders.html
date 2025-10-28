@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders - GreenKart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f4;
+            margin: 0;
+        }
+
+        header {
+            background-color: #fff;
+            color: #1a5d1a;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        header h2 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        header a {
+            text-decoration: none;
+            background-color: #fff;
+            color: #1a5d1a;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        header a:hover {
+            background-color: #2e7d32;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            color: #1a5d1a;
+            font-size: 26px;
+        }
+
+        .orders-container {
+            width: 90%;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #1a5d1a;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status.pending { color: #e67e22; }
+        .status.completed { color: #2e7d32; }
+        .status.cancelled { color: #c0392b; }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .no-orders {
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+            margin-top: 60px;
+        }
+        footer { text-align: center; padding: 15px; color: #888; margin-top: 40px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🧾 My Orders</h2>
+    <a href="{% url 'consumer_dashboard' %}">Back to Shop</a>
+</header>
+<br><br>
+{% if orders %}
+<div class="orders-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Total (₹)</th>
+                <th>Status</th>
+                <th>Payment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>#{{ order.id }}</td>
+                <td>{{ order.created_at|date:"d M Y, H:i" }}</td>
+                <td>₹{{ order.total_amount|floatformat:2 }}</td>
+                <td class="status {{ order.status|lower }}">{{ order.status }}</td>
+                <td>
+                    {% if order.payment %}
+                        {{ order.payment.status|title }}
+                    {% else %}
+                        Not Paid
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="no-orders">You haven’t placed any orders yet.</p>
+{% endif %}
+
+<footer>© 2025 GreenKart | Freshness Delivered</footer>
+
+</body>
+</html>
