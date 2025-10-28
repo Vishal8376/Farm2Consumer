@@ -1,28 +1,182 @@
+{% load static %}
+{% load math_extras %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Your Cart - GreenKart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins'; background-color: #f4f7f4; margin: 0; }
-        header { background: #1a5d1a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
-        header a { color: white; text-decoration: none; background: #2d8a2d; padding: 8px 14px; border-radius: 6px; }
-        table { width: 90%; margin: 20px auto; border-collapse: collapse; background: white; border-radius: 10px; }
-        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: center; }
-        th { background-color: #1a5d1a; color: white; }
-        button { background: #1a5d1a; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; }
-        button:hover { background: #2d8a2d; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7fdf7;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 40px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-section img {
+            height: 40px;
+        }
+
+        .logo-section span {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1b5e20;
+        }
+
+        .search-bar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            width: 60%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .right-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1rem;
+        }
+
+        .right-icons a {
+            text-decoration: none;
+            color: #1b5e20;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .right-icons i {
+            font-size: 1.1rem;
+        }
+
+        /* --- Cart Section --- */
+        h1 {
+            text-align: center;
+            color: #1b5e20;
+            margin-top: 30px;
+            font-size: 2rem;
+        }
+
+        .cart-container {
+            width: 90%;
+            margin: 30px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #1b5e20;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        td img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background: #f2f2f2;
+        }
+
+        button {
+            background: #1b5e20;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #2e7d32;
+        }
+
+        .empty {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 60px;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h2>🛒 Your Cart</h2>
-        <a href="{% url 'consumer_dashboard' %}">Back to Shop</a>
-    </header>
 
-    {% if cart_items %}
+<!-- Navbar -->
+<nav>
+    <div class="logo-section">
+        <img src="{% static 'greenkart/logo1.png' %}" alt="GreenKart Logo">
+    </div>
+
+    
+
+    <div class="right-icons">
+        <a href="{% url 'consumer_dashboard' %}">🛍 Shop</a>
+        <a href="{% url 'logout' %}">Logout</a>
+        <a href="#"><i class="fa fa-user"></i></a>
+    </div>
+</nav>
+
+<!-- Cart Section -->
+<h1>Your Cart</h1>
+
+{% if cart_items %}
+<div class="cart-container">
     <table>
         <tr>
             <th>Product</th>
+            <th>Image</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Total</th>
@@ -31,24 +185,41 @@
         {% for item in cart_items %}
         <tr>
             <td>{{ item.product.name }}</td>
+            <td>
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                {% else %}
+                    <img src="{% static 'images/no-image.png' %}" alt="No Image">
+                {% endif %}
+            </td>
             <td>{{ item.quantity }}</td>
             <td>₹{{ item.product.price }}</td>
-            <td>₹{{ item.product.price|floatformat:2|add:item.quantity }}</td>
+            <td>₹{{ item.product.price|floatformat:2 }}</td>
             <td>
-                <a href="{% url 'remove_from_cart' item.id %}"><button>Remove</button></a>
+                <a href="{% url 'remove_from_cart' item.id %}">
+                    <button>Remove</button>
+                </a>
             </td>
         </tr>
         {% endfor %}
-        <tr>
-            <th colspan="3">Grand Total</th>
-            <th>₹{{ total }}</th>
-            <th>
-                <a href="{% url 'place_order' %}"><button>Place Order</button></a>
-            </th>
+        <tr class="total-row">
+            <td colspan="4">Grand Total</td>
+            <td>₹{{ total }}</td>
+            <td>
+                <a href="{% url 'place_order' %}">
+                    <button>Place Order</button>
+                </a>
+            </td>
         </tr>
     </table>
-    {% else %}
-    <p style="text-align:center; margin-top:50px;">Your cart is empty!</p>
-    {% endif %}
+</div>
+{% else %}
+<p class="empty">🛒 Your cart is empty!</p>
+{% endif %}
+
+<footer>
+    © 2025 GreenKart | Freshness Delivered
+</footer>
+
 </body>
 </html>
